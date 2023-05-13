@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import Link from "next/link";
+import classNames from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faClose } from '@fortawesome/free-solid-svg-icons'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -18,45 +21,41 @@ import Product from '@/component/product'
 import Category from '@/component/category';
 import Blog from '@/component/blog';
 
-const inter = Inter({ subsets: ['latin'] })
-
 export default function Home() {
-
+  const [searchDropdown, setSearchDropdown] = useState(false);
   return (
-    <main>
+    <main className='relative'>
+      <div className={classNames('absolute top-0 left-0 right-0 bottom-0 bg-dark100 opacity-10 z-10', {
+        'hidden': !searchDropdown
+      })}></div>
       <section className="intro-section" style={{ backgroundImage: "url('/assets/home/intro.png')" }}>
-        <Header></Header>
+        <Header searchVisiable={false}></Header>
         <div className='container'>
-          <h1 className='text-dark100 mt-20 mb-6'>Find your next <br></br> backpacker <span className='text-primary'>experience</span></h1>
-          <div className='flex relative max-w-[642px]'>
-            <Image
-              src="/assets/img/search.svg"
-              alt="Icon"
-              className="absolute ml-5 mt-6"
-              width={17.49}
-              height={17.49}
-              priority
-            />
-            <Image
-              src="/assets/img/search-hover.svg"
-              alt="Icon"
-              className="absolute hidden ml-5 mt-6"
-              width={17.49}
-              height={17.49}
-              priority
-            />
-            <input type="text" className="main-search flex-1 bg-white text-base leading-6 pl-12 pr-4 py-5 border border-solid border-dark40 rounded-xl" placeholder="Where do you want to go?" />
-            <button className="absolute left-auto right-0 pt-px mr-5 mt-6">
-              <Image
-                src="/assets/img/close.svg"
-                alt="Icon"
-                width={14}
-                height={14}
-                priority
-              />
+          <h1 className='text-dark100 mt-20 mb-6 sm:block hidden'>Find your next <br></br> backpacker <span className='text-primary'>experience</span></h1>
+          <div className='flex relative max-w-[642px] z-20 sm:pb-3 pb-5'>
+            <FontAwesomeIcon className={classNames('absolute text-dark100 ml-5 mt-6 hover:text-primary')} icon={faSearch} width={20} height={20} />
+            <input onFocus={() => setSearchDropdown(true)} type="text" className="main-search flex-1 bg-white text-base leading-6 px-12 py-5 border border-solid border-dark40 rounded-xl" placeholder="Where do you want to go?" />
+            <button className="absolute left-auto right-0 pt-px mr-5 mt-6 hover:text-primary">
+              <FontAwesomeIcon className={classNames({
+                'hidden': !searchDropdown
+              })} onClick={() => setSearchDropdown(false)} icon={faClose} width={20} height={20} />
             </button>
+            <div className={classNames("absolute top-full md:mt-0 rounded-xl w-full search-dropdown shadow-xl bg-white p-6", {
+              'hidden': !searchDropdown
+            })}>
+              <h6 className='font-bold text-xs leading-3 text-dark60 tracking-tight uppercase'>Popular Destinations</h6>
+              <Link href="/" className='block text-comment text-dark60 mt-4 hover:text-primary'>Location</Link>
+              <Link href="/" className='block text-comment text-dark60 mt-4 hover:text-primary'>Location</Link>
+              <Link href="/" className='block text-comment text-dark60 mt-4 hover:text-primary'>Location</Link>
+              <Link href="/" className='block text-comment text-dark60 mt-4 hover:text-primary'>Sydney, New South Wales</Link>
+              <Link href="/" className='block text-comment text-dark60 mt-4 hover:text-primary'>Location</Link>
+              <Link href="/" className='block text-comment text-dark60 mt-4 hover:text-primary'>Location</Link>
+              <Link href="/" className='block text-comment text-dark60 mt-4 hover:text-primary'>Location</Link>
+              <Link href="/" className='block text-comment text-dark60 mt-4 hover:text-primary'>Location</Link>
+              <Link href="/" className='block text-comment text-dark60 mt-4 hover:text-primary'>Location</Link>
+            </div>
           </div>
-          <div className="flex items-center mt-3 pb-20">
+          <div className="items-center pb-20 sm:flex hidden">
             <span className='text-base font-semibold leading-6 mr-2'>Popular:</span>
             <div className='text-base leading-6 text-dark60'>
               <Link href="/" className='hover:text-dark100 border border-solid border-l-0 border-t-0 border-r-0 border-transparent hover:border-dark100'>Sydney</Link><span>, </span>
@@ -121,24 +120,50 @@ export default function Home() {
         </div>
       </section>
       <hr className='border-dark20'></hr>
-      <section className='destination-section my-20'>
+      <section className='destination-section sm:my-20 my-12'>
         <div className="container">
           <h3 className='mb-1'>Where you'd rather be</h3>
-          <p className="text-comment text-dark60">Australia's most popular destinations</p>
-          <div className="grid lg:grid-cols-4 gap-6 mt-10">
-            <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
-            <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
-            <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
-            <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
-            <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
-            <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
-            <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
-            <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
-          </div>
+          <p className="text-comment text-dark60 mb-10">Australia's most popular destinations</p>
+          <Swiper
+            // install Swiper modules
+            spaceBetween={24}
+            breakpoints={{
+              // when window width is >= 640px
+              640: {
+                slidesPerView: 1,
+              },
+              // when window width is >= 768px
+              768: {
+                slidesPerView: 2,
+              },
+              992: {
+                slidesPerView: 3,
+              },
+              1200: {
+                slidesPerView: 4,
+              },
+            }}>
+            <SwiperSlide>
+              <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
+              <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
+            </SwiperSlide>
+            <SwiperSlide>
+              <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
+              <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
+            </SwiperSlide>
+            <SwiperSlide>
+              <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
+              <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
+            </SwiperSlide>
+            <SwiperSlide>
+              <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
+              <Destination img={"/assets/home/destination.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
+            </SwiperSlide>
+          </Swiper>
         </div>
       </section>
       <hr className='border-dark20'></hr>
-      <section className='product-section my-20'>
+      <section className='product-section sm:my-20 my-12'>
         <div className="container">
           <h3 className='mb-1'>Popular experiences</h3>
           <p className="text-comment text-dark60 mb-10">What's hot in Australia</p>
@@ -147,7 +172,19 @@ export default function Home() {
               // install Swiper modules
               modules={[Navigation, Pagination, Scrollbar, A11y]}
               spaceBetween={24}
-              slidesPerView={3}
+              breakpoints={{
+                // when window width is >= 640px
+                640: {
+                  slidesPerView: 1,
+                },
+                // when window width is >= 768px
+                768: {
+                  slidesPerView: 2,
+                },
+                992: {
+                  slidesPerView: 3,
+                },
+              }}
               navigation
               pagination={false}
               scrollbar={false}
@@ -206,16 +243,31 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className='category-section my-20'>
+      <section className='category-section sm:my-20 my-12'>
         <div className="container">
           <h3 className='mb-1'>Thing's to do</h3>
-          <p className="text-comment text-dark60 mb-10">Find experiences and things to do in Australia</p>
+          <p className="text-comment text-dark60 mb-10 pr-6">Find experiences and things to do in Australia</p>
           <div className="category-swiper swiper-out-nav">
             <Swiper
               // install Swiper modules
               modules={[Navigation, Pagination, Scrollbar, A11y]}
               spaceBetween={24}
-              slidesPerView={4}
+              breakpoints={{
+                // when window width is >= 640px
+                640: {
+                  slidesPerView: 1,
+                },
+                // when window width is >= 768px
+                768: {
+                  slidesPerView: 2,
+                },
+                992: {
+                  slidesPerView: 3,
+                },
+                1200: {
+                  slidesPerView: 4,
+                },
+              }}
               navigation
               pagination={false}
               scrollbar={false}
@@ -241,18 +293,40 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className='blog-section py-20'>
+      <section className='blog-section sm:py-20 py-12'>
         <div className="container">
           <h3 className='mb-1'>Our latest guides</h3>
           <p className="text-comment text-dark60 mb-10">Looking for your next adventure? Use our guides, tips and tricks to help you on your journey.</p>
-          <div className="grid lg:grid-cols-3 gap-6">
-            <Blog img={"/assets/home/blog.png"} title={"Top 10 cafes in Melboure"} subtitle={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia molestie cras nisl..."} category={"See & Do"}></Blog>
-            <Blog img={"/assets/home/blog.png"} title={"Top 10 cafes in Melboure"} subtitle={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia molestie cras nisl..."} category={"See & Do"}></Blog>
-            <Blog img={"/assets/home/blog.png"} title={"Top 10 cafes in Melboure"} subtitle={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia molestie cras nisl..."} category={"See & Do"}></Blog>
-          </div>
+          <Swiper
+            // install Swiper modules
+            spaceBetween={24}
+            breakpoints={{
+              // when window width is >= 640px
+              640: {
+                slidesPerView: 1,
+              },
+              // when window width is >= 768px
+              768: {
+                slidesPerView: 2,
+              },
+              992: {
+                slidesPerView: 3,
+              }
+            }}
+          >
+            <SwiperSlide>
+              <Blog img={"/assets/home/blog.png"} title={"Top 10 cafes in Melboure"} subtitle={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia molestie cras nisl..."} category={"See & Do"}></Blog>
+            </SwiperSlide>
+            <SwiperSlide>
+              <Blog img={"/assets/home/blog.png"} title={"Top 10 cafes in Melboure"} subtitle={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia molestie cras nisl..."} category={"See & Do"}></Blog>
+            </SwiperSlide>
+            <SwiperSlide>
+              <Blog img={"/assets/home/blog.png"} title={"Top 10 cafes in Melboure"} subtitle={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia molestie cras nisl..."} category={"See & Do"}></Blog>
+            </SwiperSlide>
+          </Swiper>
         </div>
       </section>
       <Footer></Footer>
-    </main>
+    </main >
   )
 }

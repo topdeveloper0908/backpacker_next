@@ -11,6 +11,7 @@ export default function Category({ title, subtitle, img }) {
                     <Image
                         src={img}
                         alt="Category"
+                        className='w-full'
                         width={288}
                         height={120}
                         priority

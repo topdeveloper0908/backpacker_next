@@ -27,7 +27,9 @@ module.exports = {
       'third80': '#ff5baa',
       'third60': '#ff9dcc',
       'third40': '#ffdeee',
-      'white': '#fff'
+      'white': '#fff',
+      'alert': '#ffb23e',
+      'error': '#f45050'
     },
     fontFamily: {
       primary: ['Work Sans', 'sans-serif'],

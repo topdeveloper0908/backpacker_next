@@ -9,6 +9,7 @@ export default function Product({ title, location, subLocation, rating, newPrice
                 <Image
                     src={img}
                     alt="Product"
+                    className='w-full'
                     width={392}
                     height={144}
                     priority

@@ -5,7 +5,7 @@ export default function Destination({ title, subtitle, img }) {
         <Link
             href="/"
         >
-            <div className="flex items-center group">
+            <div className="flex items-center group mb-6">
                 <div className='rounded-xl'>
                     <Image
                         src={img}

@@ -16,19 +16,26 @@
   }
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Work Sans';
   background-color: black;
 }
 
 main {
-  width: 1440px;
+  max-width: 1440px;
   margin: auto;
   background-color: white;
 }
 
 .container {
-  max-width: 1224px;
+  max-width: 1264px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin: auto;
 }
 
@@ -97,9 +104,73 @@ h5 {
   font-weight: 400;
 }
 
+.main-block {
+  padding: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: 18px;
+}
+
+.fixedTop {
+  max-width: 1440px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background: white;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  z-index: 100;
+}
+
+.book-footer {
+  background-color: white;
+  box-shadow: 0 -10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  z-index: 100;
+}
+
+.fixedTop+.main-block {
+  padding-top: 102px;
+}
+
 .main-search::before {
   content: 'f'
 }
+
+.btn {
+  @apply text-base font-semibold leading-6 py-2 px-3 rounded-lg text-center
+}
+
+.btn-primary {
+  @apply text-white bg-primary
+}
+
+.btn-primary:hover:not(.disabled) {
+  @apply bg-primary80
+}
+
+.btn-primary:focus:not(.disabled) {
+  @apply bg-primary60
+}
+
+.btn-primary:disabled {
+  @apply bg-primary40
+}
+
+.btn-outline {
+  @apply border border-solid border-dark40
+}
+
+.btn-outline:hover:not(.disabled),
+.btn-outline:focus:not(.disabled) {
+  @apply border-dark100
+}
+
+.btn-outline:disabled {
+  color: #0F10123D;
+}
+
 
 .intro-section {
   background-repeat: no-repeat;
