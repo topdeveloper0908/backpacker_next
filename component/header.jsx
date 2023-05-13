@@ -47,15 +47,13 @@ export default function Header({ searchVisiable = true }) {
                     height={32}
                     priority
                 />
-                <div className={classNames('hidden relative w-[384px]', {
-                    'md:flex': searchVisiable
-                })}>
+                <div className='md:flex hidden header-search relative w-[384px]'>
                     <FontAwesomeIcon className='absolute ml-4 mt-3 hover:text-primary' icon={faSearch} width={20} height={20} />
                     <input onFocus={() => setSearchDropdown(true)} type="text" className="main-search flex-1 bg-white text-base leading-6 px-12 py-2 border-2 border-solid border-dark40 rounded-lg" placeholder="Where do you want to go?" />
                     <button className="absolute left-auto hover:text-primary right-0 pt-px mr-4 mt-3" onClick={() => setSearchDropdown(false)}>
                         <FontAwesomeIcon icon={faClose} width={20} height={20} />
                     </button>
-                    <div className={classNames("absolute top-full md:mt-2 rounded-xl w-full search-dropdown shadow-xl bg-white p-6", {
+                    <div className={classNames("absolute top-full md:mt-2 rounded-xl w-full search-dropdown shadow-xl bg-white p-6 z-50", {
                         'hidden': !searchDropdown
                     })}>
                         <h6 className='font-bold text-xs leading-3 text-dark60 tracking-tight uppercase'>Popular Destinations</h6>

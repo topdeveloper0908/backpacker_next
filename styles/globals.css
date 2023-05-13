@@ -121,6 +121,10 @@ h5 {
   z-index: 100;
 }
 
+.fixedTop+* {
+  margin-top: 77.5px;
+}
+
 .book-footer {
   background-color: white;
   box-shadow: 0 -10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
@@ -174,6 +178,10 @@ h5 {
 
 .intro-section {
   background-repeat: no-repeat;
+}
+
+.intro-section .mainHeader:not(.fixedTop) .header-search {
+  display: none;
 }
 
 .product-section .product-title,

@@ -29,7 +29,7 @@ export default function Home() {
         'hidden': !searchDropdown
       })}></div>
       <section className="intro-section" style={{ backgroundImage: "url('/assets/home/intro.png')" }}>
-        <Header searchVisiable={false}></Header>
+        <Header></Header>
         <div className='container'>
           <h1 className='text-dark100 mt-20 mb-6 sm:block hidden'>Find your next <br></br> backpacker <span className='text-primary'>experience</span></h1>
           <div className='flex relative max-w-[642px] z-20 sm:pb-3 pb-5'>
