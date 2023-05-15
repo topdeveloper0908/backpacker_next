@@ -1,5 +1,5 @@
 import Image from 'next/image'
-export default function Rating({ active }) {
+export default function Rating({ active, size = 17 }) {
     const getRatings = num => {
         let content = [];
         for (let index = 0; index < 5; index++) {
@@ -7,8 +7,8 @@ export default function Rating({ active }) {
                 content.push(<Image
                     src="/assets/img/star.svg"
                     alt="Icon"
-                    width={17}
-                    height={17}
+                    width={size}
+                    height={size}
                     key={index}
                     priority
                 />);
@@ -17,8 +17,8 @@ export default function Rating({ active }) {
                 content.push(<Image
                     src="/assets/img/star-dark.svg"
                     alt="Icon"
-                    width={17}
-                    height={17}
+                    width={size}
+                    height={size}
                     key={index}
                     priority
                 />);

@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import Link from "next/link";
 import SlideToggle from "react-slide-toggle";
 import classNames from 'classnames';
 
@@ -20,7 +19,7 @@ import Progress from '@/component/progress';
 export default function Products() {
     return (
         <RootLayout>
-            <section className='border bordersolid border-dark20 border-l-0 border-r-0 py-5 md:block hidden'>
+            <section className='border-b border-solid border-dark20 py-5 md:block hidden'>
                 <div className='container'>
                     <div className='flex items-center'>
                         <span className="text-comment-sm text-dark60 mr-2">Home</span>
@@ -258,7 +257,7 @@ export default function Products() {
                             )}
                         />
                     </div>
-                    <div className='md:basis-1/3 md:block hidden'>
+                    <div className='md:basis-1/3 md:mt-0 mt-10'>
                         <div className='sticky top-4 checkWrapper bg-white rounded-lg border border-solid border-dark20 shadow'>
                             <div className='border-b border-solid border-dark20 p-6'>
                                 <div className='bg-error px-2 py-[5] rounded inline-block'>
@@ -270,7 +269,7 @@ export default function Products() {
                                 </div>
                             </div>
                             <div className='border-b border-solid border-dark20 p-6'>
-                                <a href='' className='btn btn-primary block'>Book</a>
+                                <button className='btn btn-primary block'>Book</button>
                                 <div className='flex items-center justify-center mt-4'>
                                     <Image
                                         src="/assets/products/dollar.svg"
@@ -382,7 +381,7 @@ export default function Products() {
                     <span className='text-commnet text-dark60'>From</span>
                     <h4>A$1,265.00</h4>
                 </div>
-                <a href='' className='btn btn-primary'>Book</a>
+                <button className='btn btn-primary'>Book</button>
             </div>
         </RootLayout >
     )

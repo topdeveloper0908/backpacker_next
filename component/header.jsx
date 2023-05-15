@@ -34,7 +34,7 @@ export default function Header({ searchVisiable = true }) {
     }, [])
 
     return (
-        <header className='relative mainHeader' id="mainHeader" ref={stickyHeader}>
+        <header className='relative mainHeader border-b border-solid border-dark20' id="mainHeader" ref={stickyHeader}>
             <div className={classNames("flex items-center justify-between py-6 md:px-10 px-5", {
                 'bg-white': (headerDropdown || headerMenu || headerSearch),
             })}>
