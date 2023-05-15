@@ -258,7 +258,7 @@ export default function Products() {
                         />
                     </div>
                     <div className='md:basis-1/3 md:mt-0 mt-10'>
-                        <div className='sticky top-4 checkWrapper bg-white rounded-lg border border-solid border-dark20 shadow'>
+                        <div className='sticky top-32 checkWrapper bg-white rounded-lg border border-solid border-dark20 shadow'>
                             <div className='border-b border-solid border-dark20 p-6'>
                                 <div className='bg-error px-2 py-[5] rounded inline-block'>
                                     <span className='text-white uppercase text-xs font-bold leading-3 trakcing-tighter'>LIKELY TO SELL OUT</span>
