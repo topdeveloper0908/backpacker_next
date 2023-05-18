@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faClose } from '@fortawesome/free-solid-svg-icons'
 
 //
-import { getProducts } from '@/utils/api';
+import { getDestinations, getProducts } from '@/utils/api';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -25,11 +25,14 @@ import Product from '@/component/product'
 import Category from '@/component/category';
 import Blog from '@/component/blog';
 
-export default function Home() {
+export default function Home({experiences, destinations}) {
+  const slideNumberArray = Array.from({length: 4});
+  const destinationsData = destinations.data.slice(0,8);
+  const experiencesData = experiences.data;
+  console.log(experiencesData)
+  
+  
   const [searchDropdown, setSearchDropdown] = useState(false);
-  useEffect(() => {
-    //console.log(getProducts(27519));
-  }, [])
   return (
     <main className='relative'>
       <div className={classNames('absolute top-0 left-0 right-0 bottom-0 bg-grey opacity-10 z-10', {
@@ -138,22 +141,14 @@ export default function Home() {
                   slidesPerView: 4,
                 },
               }}>
-              <SwiperSlide>
-                <Destination url="Melbourne" img={"/assets/home/melborune.png"} title={"Melbourne"} subtitle={"Victoria"}></Destination>
-                <Destination url="Hobart" img={"/assets/home/hobart.png"} title={"Hobart"} subtitle={"Tasmania"}></Destination>
-              </SwiperSlide>
-              <SwiperSlide>
-                <Destination url="Sydney" img={"/assets/home/sydney.png"} title={"Sydney"} subtitle={"New South Wales"}></Destination>
-                <Destination url="Cairns-and-the-Tropical-North" img={"/assets/home/cairns.png"} title={"Cairns"} subtitle={"Queensland"}></Destination>
-              </SwiperSlide>
-              <SwiperSlide>
-                <Destination url="Perth" img={"/assets/home/perth.png"} title={"Perth"} subtitle={"Western Australia"}></Destination>
-                <Destination url="Uluru" img={"/assets/home/uluru.png"} title={"Uluru"} subtitle={"Nothern Territory"}></Destination>
-              </SwiperSlide>
-              <SwiperSlide>
-                <Destination url="Surfers-Paradise" img={"/assets/home/surfers.png"} title={"Surfers Paradise"} subtitle={"Queensland"}></Destination>
-                <Destination url="Adelaide" img={"/assets/home/adalaide.png"} title={"Adelaide"} subtitle={"South Australia"}></Destination>
-              </SwiperSlide>
+              {
+                slideNumberArray.map((element, index)=>(
+                  <SwiperSlide>
+                    <Destination url={destinationsData[index].destinationUrlName} img={"/assets/home/melborune.png"} title={destinationsData[index].destinationName} subtitle={((destinationsData[index].timeZone).split("/"))[1]}></Destination>
+                    <Destination url={destinationsData[index+4].destinationUrlName} img={"/assets/home/hobart.png"} title={destinationsData[index+4].destinationName} subtitle={((destinationsData[index+4].timeZone).split("/"))[1]}></Destination>
+                  </SwiperSlide>
+                ))
+              }
             </Swiper>
           </div>
         </section>
@@ -188,54 +183,22 @@ export default function Home() {
                 onSwiper={(swiper) => console.log(swiper)}
                 onSlideChange={() => console.log('slide change')}
               >
-                <SwiperSlide>
-                  <Product
-                    title={"2-Day Combo: Sydney City Tour, The Sydney Harbour Lunch Cruise lorem ipsum long text is my love"}
-                    location={"Melbourne"}
-                    subLocation={"Victoria"}
-                    rating={"24"}
-                    newPrice={"165.00"}
-                    oldPrice={"200.00"}
-                    img={"/assets/home/product.png"}
-                  >
-                  </Product>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <Product
-                    title={"2-Day Combo: Sydney City Tour, The Sydney Harbour Lunch Cruise lorem ipsum long text is my love"}
-                    location={"Melbourne"}
-                    subLocation={"Victoria"}
-                    rating={"24"}
-                    newPrice={"165.00"}
-                    oldPrice={"200.00"}
-                    img={"/assets/home/product.png"}
-                  >
-                  </Product>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <Product
-                    title={"2-Day Combo: Sydney City Tour, The Sydney Harbour Lunch Cruise lorem ipsum long text is my love"}
-                    location={"Melbourne"}
-                    subLocation={"Victoria"}
-                    rating={"24"}
-                    newPrice={"165.00"}
-                    oldPrice={"200.00"}
-                    img={"/assets/home/product.png"}
-                  >
-                  </Product>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <Product
-                    title={"2-Day Combo: Sydney City Tour, The Sydney Harbour Lunch Cruise lorem ipsum long text is my love"}
-                    location={"Melbourne"}
-                    subLocation={"Victoria"}
-                    rating={"24"}
-                    newPrice={"165.00"}
-                    oldPrice={"200.00"}
-                    img={"/assets/home/product.png"}
-                  >
-                  </Product>
-                </SwiperSlide>
+                {
+                  slideNumberArray.map((element, index) => (
+                    <SwiperSlide key={index}>
+                      <Product
+                        title={experiencesData[index].pageUrlName}
+                        location={experiencesData[index].primaryDestinationName}
+                        subLocation={"Victoria"}
+                        rating={experiencesData[index].rating}
+                        newPrice={"165.00"}
+                        oldPrice={"200.00"}
+                        img={experiencesData[index].thumbnailHiResURL}
+                      >
+                      </Product>
+                    </SwiperSlide>
+                  ))
+                }
               </Swiper>
             </div>
           </div>
@@ -327,4 +290,20 @@ export default function Home() {
       <Footer></Footer>
     </main >
   )
+}
+
+export async function getServerSideProps() {
+
+  const response = await getProducts(684)
+  const data = response.data;
+
+  const destinationsRes = await getDestinations();
+  const destinationsData = destinationsRes.data;
+
+  return {
+    props: {
+      experiences: data,
+      destinations: destinationsData,
+    }
+  }
 }
