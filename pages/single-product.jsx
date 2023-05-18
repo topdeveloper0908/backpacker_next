@@ -116,7 +116,7 @@ export default function Products() {
                             </div>
                             <span className='text-comment text-grey60 ml-2'>243 reviews</span>
                         </div>
-                        <div className='flex md:flex-row flex-col md:items-center items-start px-7 py-6 border border-solid border-grey20 rounded-e-xl mb-6 md:space-x-5 md:space-y-0 space-y-5'>
+                        <div className='flex md:flex-row flex-col md:items-center items-start px-7 py-6 border border-solid border-grey20 rounded-xl mb-6 md:space-x-5 md:space-y-0 space-y-5'>
                             <div className='flex items-center'>
                                 <Image
                                     src="/assets/products/mobile.svg"

@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisH, faCaretDown, faClose } from '@fortawesome/free-solid-svg-icons'
+import { faArrowDown, faEllipsisH, faCaretDown, faClose } from '@fortawesome/free-solid-svg-icons'
+
+import SlideToggle from "react-slide-toggle";
 
 //Slider
 import Slider from '@material-ui/core/Slider';
@@ -92,6 +94,28 @@ export default function Products() {
                     <div className='flex lg:space-x-14'>
                         <div className='lg:basis-1/3 lg:blcok lg:block hidden w-full product-sidebar border border-l-0 border-r-0 border-solid border-grey20 py-6'>
                             <h6 className='text-base text-grey leading-6 mb-4 font-semibold'>Thing’s to do</h6>
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible">
+                                        <div className='flex items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h4 className='my-5 my-collapsible__toggle'>Price</h4>
+                                            <Image
+                                                src="/assets/products/arrow_down.svg"
+                                                alt="Icon"
+                                                className={classNames("mr-2", {
+                                                    'rotate-180': progress
+                                                })}
+                                                width={12}
+                                                height={7.1}
+                                                priority
+                                            />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+
+                                        </div>
+                                    </div>
+                                )}
+                            />
                         </div>
                         <div className='lg:basis-2/3 w-full product-sidebar border border-l-0 border-r-0 border-solid border-grey20 py-6'>
                             <div className='filter-bar flex justify-between mb-6'>

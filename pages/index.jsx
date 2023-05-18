@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image'
 import classNames from 'classnames';
+import Link from "next/link";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faClose } from '@fortawesome/free-solid-svg-icons'
 
 //
 import { getProducts } from '@/utils/api';
@@ -35,7 +39,25 @@ export default function Home() {
         <Header></Header>
         <div className='container'>
           <h1 className='text-grey mt-20 mb-6 sm:block hidden'>Find your next <br></br> backpacker <span className='text-purple'>experience</span></h1>
-
+          <div className='intro-search max-w-[600px] pb-4 md:mt-0 mt-4 relative'>
+            <FontAwesomeIcon icon={faSearch} width={18} height={18} className="absolute text-grey60 mt-5 ml-5" />
+            <input type='text' className='text-base leading-6 w-full text-grey60 px-12 py-4 border-2 border-solid border-grey20 rounded-lg' placeholder='Where to'></input>
+            <FontAwesomeIcon icon={faClose} width={18} height={18} className="absolute text-grey60 mt-5 mr-4 right-0 top-0" />
+          </div>
+          <div className='md:flex hidden pb-20'>
+            <span className='text-base leading-6 font-semibold text-grey mr-2'>Popular: </span>
+            <Link href="/" className='text-comment text-grey60 border-b border-solid border-transparent hover:border-grey hover:text-grey'> Sydney</Link>
+            <span className='text-comment text-grey60 mr-1'>, </span>
+            <Link href="/" className='text-comment text-grey60 border-b border-solid border-transparent hover:border-grey hover:text-grey'> Hobart</Link>
+            <span className='text-comment text-grey60 mr-1'>, </span>
+            <Link href="/" className='text-comment text-grey60 border-b border-solid border-transparent hover:border-grey hover:text-grey'> Melbourne</Link>
+            <span className='text-comment text-grey60 mr-1'>, </span>
+            <Link href="/" className='text-comment text-grey60 border-b border-solid border-transparent hover:border-grey hover:text-grey'> Gold Coast</Link>
+            <span className='text-comment text-grey60 mr-1'>, </span>
+            <Link href="/" className='text-comment text-grey60 border-b border-solid border-transparent hover:border-grey hover:text-grey'> Great Ocean Road</Link>
+            <span className='text-comment text-grey60 mr-1'>, </span>
+            <Link href="/" className='text-comment text-grey60 border-b border-solid border-transparent hover:border-grey hover:text-grey'> Perth</Link>
+          </div>
         </div>
       </section>
       <div className='main-content'>
@@ -93,17 +115,17 @@ export default function Home() {
       </div>
       <hr className='border-grey20'></hr>
       <div className='main-content'>
-        <section className='destination-section sm:my-20 my-12'>
+        <section className='destination-section sm:mt-20 mt-12 sm:mb-16 mb-8'>
           <div className="container">
-            <h3 className='mb-1'>Where you'd rather be</h3>
-            <p className="text-comment text-grey60 mb-10">Australia's most popular destinations</p>
+            <h3 className='md:mb-3 mb-1'>Top backpacker destinations</h3>
+            <p className="text-comment text-grey60 md:mb-10 mb-6">Australia's most popular destinations</p>
             <Swiper
               // install Swiper modules
               spaceBetween={24}
               breakpoints={{
                 // when window width is >= 640px
                 640: {
-                  slidesPerView: 1,
+                  slidesPerView: 2,
                 },
                 // when window width is >= 768px
                 768: {
@@ -141,7 +163,7 @@ export default function Home() {
         <section className='product-section sm:my-20 my-12'>
           <div className="container">
             <h3 className='mb-1'>Popular experiences</h3>
-            <p className="text-comment text-grey60 mb-10">What's hot in Australia</p>
+            <p className="text-comment text-grey60 md:mb-10 mb-6">What's hot in Australia</p>
             <div className="product-swiper swiper-out-nav">
               <Swiper
                 // install Swiper modules
@@ -150,7 +172,7 @@ export default function Home() {
                 breakpoints={{
                   // when window width is >= 640px
                   640: {
-                    slidesPerView: 1.3,
+                    slidesPerView: 1.5,
                   },
                   // when window width is >= 768px
                   768: {
@@ -221,7 +243,7 @@ export default function Home() {
         <section className='category-section sm:my-20 my-12'>
           <div className="container">
             <h3 className='mb-1'>Thing's to do</h3>
-            <p className="text-comment text-grey60 mb-10 pr-20">Find experiences and things to do in Australia</p>
+            <p className="text-comment text-grey60 md:mb-10 mb-6 pr-20">Find experiences and things to do in Australia</p>
             <div className="category-swiper swiper-out-nav">
               <Swiper
                 // install Swiper modules
@@ -271,8 +293,8 @@ export default function Home() {
       </div>
       <section className='blog-section sm:py-20 py-12'>
         <div className="container">
-          <h3 className='mb-1'>Our latest guides</h3>
-          <p className="text-comment text-grey60 mb-10">Looking for your next adventure? Use our guides, tips and tricks to help you on your journey.</p>
+          <h3 className='mb-3'>Our latest guides</h3>
+          <p className="text-comment text-grey60 md:mb-10 mb-6">Looking for your next adventure? Use our guides, tips and tricks to help you on your journey.</p>
           <Swiper
             // install Swiper modules
             spaceBetween={24}

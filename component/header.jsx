@@ -98,7 +98,7 @@ export default function Header({ searchVisiable = true }) {
                     'hidden': !headerDropdown
                 })
             }>
-                <div className="container">
+                <div className="px-10">
                     <div className="flex flex-row space-x-10">
                         <div className="lg:basis-1/4 basis-1/3 flex flex-col items-start pt-10 border border-solid border-l-0 border-t-0 border-b-0 border-grey20 pb-4 w-full">
                             <Link className='text-base leading-6 font-semibold border border-l-0 border-r-0 border-t-0 border-solid border-transparent text-grey60 hover:border-grey hover:text-grey mb-6' href="/">Victoria</Link>
