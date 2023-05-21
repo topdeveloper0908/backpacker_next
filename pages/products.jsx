@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowDown, faEllipsisH, faCaretDown, faClose } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown, faAngleUp, faEllipsisH, faCaretDown, faClose } from '@fortawesome/free-solid-svg-icons'
 
 import SlideToggle from "react-slide-toggle";
 
@@ -15,30 +15,15 @@ import Rating from '@/component/rating';
 import classNames from 'classnames';
 
 export default function Products() {
-    const priceRef = useRef(null);
-    const timeRef = useRef(null);
-    const ratingRef = useRef(null);
-    const moreRef = useRef(null);
+    const [category, setCategory] = useState('');
 
     // Price Filter
-    const [priceFilterShow, setPriceFilterShow] = useState(false);
     const [filterPrice, setFilterPrice] = useState([24, 80]);
-    const [priceSelected, setPriceSelected] = useState(false);
-    // Time Filter
-    const [timeFilterShow, setTimeFilterShow] = useState(false);
-    const [filterTime, setFilterTime] = useState(null);
-    const [timeSelected, setTimeSelected] = useState(false);
-
-    // Rating
-    const [ratingFilterShow, setRatingFilterShow] = useState(false);
+    function priceSelector(event, newValue) {
+        setFilterPrice(newValue);
+    }
+    // Rating Filter
     const [filterRating, setFilterRating] = useState(null);
-    const [ratingSelected, setRatingSelected] = useState(false);
-
-    // More
-    const [moreFilterShow, setMoreFilterShow] = useState(false);
-    const [filtermore, setFilterMore] = useState(null);
-    const [moreSelected, setMoreSelected] = useState(false);
-
 
     const muiTheme = getMuiTheme({
         slider: {
@@ -46,69 +31,37 @@ export default function Products() {
             selectionColor: "white"
         }
     });
-    function priceSelector(event, newValue) {
-        setFilterPrice(newValue);
-        setPriceSelected(true);
-    }
-    function clearFilterPrice() {
-        setFilterPrice([0, 0]);
-        setPriceSelected(false);
-    }
-    function clearFilterRating() {
-        setFilterRating(null);
-        setRatingSelected(false);
-        setRatingFilterShow(false);
-    }
-    function clearFilterMore() {
-        setFilterRating(null);
-        setRatingSelected(false);
-        setRatingFilterShow(false);
-    }
-    useEffect(() => {
-        const handleOutSideClick = (event) => {
-            if (!ref.current?.contains(event.target)) {
-                setPriceFilterShow(false);
-                setTimeFilterShow(false);
-                setRatingFilterShow(false);
-                setMoreFilterShow(false);
-            }
-        };
-        window.addEventListener("mousedown", handleOutSideClick);
-        return () => {
-            window.removeEventListener("mousedown", handleOutSideClick);
-        };
-    }, [priceRef]);
-
     return (
         <RootLayout>
-            <seciton className='border-t border-solid border-grey40'>
+            <div className='bread-crumb border-b border-solid border-grey20 py-4'>
+                <div className='container'>
+                    <span className='text-xs leading-5 text-grey'>Home</span>
+                    <span className='text-xs leading-5 text-grey60 mx-1'>/</span>
+                    <span className='text-xs leading-5 text-grey'>Things to do in Austrilia</span>
+                    <span className='text-xs leading-5 text-grey60 mx-1'>/</span>
+                    <span className='text-xs leading-5 text-grey'>Victoria  </span>
+                    <span className='text-xs leading-5 text-grey60 mx-1'>/</span>
+                </div>
+            </div>
+            <seciton className='border-t border-solid border-grey40 mt-20'>
                 <div className='container mb-10'>
                     <div className='md:pt-20 pt-6'>
-                        <h1 className='text-grey products-page-title'><span className='font-bold'>Melbourne </span><span className='font-normal'>Air, Helicopter & Balloon Tours</span></h1>
-                        <p className='text-comment text-grey60 md:mb-10 mb-6'>14 experiences found</p>
+                        <h1 className='text-grey products-page-title mb-2'><span className='font-bold'>Melbourne </span><span className='font-normal'>{category}</span></h1>
+                        <p className='text-comment text-grey60 md:mb-10 mb-6'><span className='font-semibold'>1244 </span>experiences found</p>
                     </div>
                 </div>
             </seciton>
             <section>
                 <div className='container'>
                     <div className='flex lg:space-x-14'>
-                        <div className='lg:basis-1/3 lg:blcok lg:block hidden w-full product-sidebar border border-l-0 border-r-0 border-solid border-grey20 py-6'>
-                            <h6 className='text-base text-grey leading-6 mb-4 font-semibold'>Thing’s to do</h6>
+                        <div className='lg:basis-1/3 lg:blcok lg:block hidden w-full product-sidebar border-t border-solid border-grey20 py-6'>
                             <SlideToggle
                                 render={({ toggle, progress, setCollapsibleElement }) => (
-                                    <div className="my-collapsible">
-                                        <div className='flex items-center justify-between hover:cursor-pointer' onClick={toggle}>
-                                            <h4 className='my-5 my-collapsible__toggle'>Price</h4>
-                                            <Image
-                                                src="/assets/products/arrow_down.svg"
-                                                alt="Icon"
-                                                className={classNames("mr-2", {
-                                                    'rotate-180': progress
-                                                })}
-                                                width={12}
-                                                height={7.1}
-                                                priority
-                                            />
+                                    <div className="my-collapsible mb-4">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Thing’s to do
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
                                         </div>
                                         <div className="my-collapsible__content" ref={setCollapsibleElement}>
 
@@ -116,44 +69,206 @@ export default function Products() {
                                     </div>
                                 )}
                             />
-                        </div>
-                        <div className='lg:basis-2/3 w-full product-sidebar border border-l-0 border-r-0 border-solid border-grey20 py-6'>
-                            <div className='filter-bar flex justify-between mb-6'>
-                                <div className='flex items-center ml-4'>
-                                    <div className={classNames('flex relative items-center mr-5 p-2 hover:cursor-pointer border border-solid', {
-                                        ' hover:text-purple border-transparent': !priceSelected,
-                                        '  border-grey rounded-lg': priceSelected,
-                                    })} ref={priceRef}>
-                                        <Image
-                                            src="/assets/products/dollar-dark.svg"
-                                            alt="Icon"
-                                            width={20}
-                                            height={20}
-                                            priority
-                                        />
-                                        {
-                                            priceSelected ?
-                                                <><span className='mx-2 font-semibold'>
-                                                    {'A$' + filterPrice[0] + '-A$' + filterPrice[1]}
-                                                </span><FontAwesomeIcon className='text-grey hover:text-purple' icon={faClose} width={17} height={17} onClick={clearFilterPrice}></FontAwesomeIcon></>
-                                                :
-                                                <span className='text-base leading-6 font-semibold  ml-2' onClick={() => setPriceFilterShow(true)}>Price</span>
-                                        }
+                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold mb-3 text-purple'>All Melbourne
+                            </h6>
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible mb-3">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>All Culture
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
 
-                                        <div className={classNames('price-dropdown absolute top-full left-0 mt-1 border border-solid border-grey40 rounded-lg bg-white shadow-xl z-10', {
-                                            'hidden': !priceFilterShow
-                                        })}>
-                                            <div className='px-6 pt-6 pb-2'>
-                                                <div className='flex items-center mb-4'>
-                                                    <div className='relative w-[134px]'>
-                                                        <input type='number' className='py-2 pr-2 pl-16 rounded border border-solid border-grey20 text-right w-full'></input>
-                                                        <span className='absolute left-0 mt-2 pt-px ml-2 font-semibold text-base leading-6 text-grey60'>AUD $</span>
-                                                    </div>
-                                                    <span className='font-bold text-grey60 text-sm mx-2'>TO</span>
-                                                    <div className='relative w-[134px]'>
-                                                        <input type='number' className='py-2 pr-2 pl-16 rounded border border-solid border-grey20 text-right w-full'></input>
-                                                        <span className='absolute left-0 mt-2 pt-px ml-2 font-semibold text-base leading-6 text-grey60'>AUD $</span>
-                                                    </div>
+                                        </div>
+                                    </div>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible mb-3">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Classes & Workshops
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+
+                                        </div>
+                                    </div>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className={classNames("my-collapsible", {
+                                        'mb-3': progress
+                                    })}>
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold mb-4'>Cruises, Sailing & Water Tours
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}                                                                                                                                                                                                                                                                                                                                                                                                                                                >
+                                            <div className='ml-4'>
+                                                <SlideToggle
+                                                    render={({ toggle, progress, setCollapsibleElement }) => (
+                                                        <div className="my-collapsible">
+                                                            <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                                                <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold border-l border-solid border-grey20 pl-4 pb-3'>Category tier 2
+                                                                </h6>
+                                                                <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                                            </div>
+                                                            <div className="my-collapsible__content" ref={setCollapsibleElement}>
+
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                />
+                                                <SlideToggle
+                                                    render={({ toggle, progress, setCollapsibleElement }) => (
+                                                        <div className="my-collapsible">
+                                                            <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                                                <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold border-l border-solid border-grey20 pl-4 pb-3'>Category tier 2
+                                                                </h6>
+                                                                <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                                            </div>
+                                                            <div className="my-collapsible__content" ref={setCollapsibleElement}>
+                                                                <SlideToggle
+                                                                    render={({ toggle, progress, setCollapsibleElement }) => (
+                                                                        <div className="my-collapsible ml-4">
+                                                                            <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                                                                <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold border-l border-solid border-grey20 pl-4 pb-3'>Category tier 2
+                                                                                </h6>
+                                                                                <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                                                            </div>
+                                                                            <div className="my-collapsible__content" ref={setCollapsibleElement}>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible mb-3">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Likely To Sell Out
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+
+                                        </div>
+                                    </div>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible mb-3">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Outdoor Activities
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+
+                                        </div>
+                                    </div>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible mb-3">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Seasonal & Special Occasions
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+
+                                        </div>
+                                    </div>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible mb-3">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Tickets & Passes
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+
+                                        </div>
+                                    </div>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible mb-3">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Tours, Sightseeing & Cruises
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+
+                                        </div>
+                                    </div>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible mb-3">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Travel & Transportation Services
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+
+                                        </div>
+                                    </div>
+                                )}
+                            />
+                            <div className='pb-3'></div>
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible py-5 border border-solid border-grey20 border-l-0 border-r-0">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Unique Experiences
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+
+                                        </div>
+                                    </div>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible py-5 border-b border-solid border-grey20">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Price
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+                                            <div>
+                                                <div className='flex items-center justify-between mt-6 mb-2'>
+                                                    <span className='text-comment'>{'A$' + filterPrice[0]}</span>
+                                                    <span className='text-comment'>{'A$' + filterPrice[1]}</span>
                                                 </div>
                                                 <MuiThemeProvider muiTheme={muiTheme}>
                                                     <Slider
@@ -165,121 +280,40 @@ export default function Products() {
                                                     />
                                                 </MuiThemeProvider>
                                             </div>
-                                            <div className='p-6 border-t border-solid border-grey20 flex justify-between'>
-                                                <button className='btn btn-ghost' onClick={clearFilterPrice}>Clear</button>
-                                                <button className='btn btn-primary'>Apply</button>
-                                            </div>
                                         </div>
                                     </div>
-                                    <div className='flex items-center mr-5 p-2 hover:text-purple hover:cursor-pointer relative'>
-                                        <Image
-                                            src="/assets/products/clock-dark.svg"
-                                            alt="Icon"
-                                            width={20}
-                                            height={20}
-                                            priority
-                                        />
-                                        <span className='text-base leading-6 font-semibold  ml-2'>Time</span>
-                                        <div className={classNames('time-dropdown absolute top-full left-0 mt-1 border border-solid border-grey40 rounded-lg bg-white shadow-xl z-10', {
-                                        })}>
-                                            <div className='py-6 w-[291px]'>
-                                                <h6 className='px-6 font-bold text-xs text-grey60 leading-4 tracking-tight mb-4'>TIME OF DAY</h6>
-                                                <div className='flex text-grey60 hover:text-grey  hover:bg-[#f9f9f9] px-6 mb-2 py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>Morning (6)<br />6am—12pm </p>
-                                                </div>
-                                                <div className='flex text-grey60 hover:text-grey  hover:bg-[#f9f9f9] px-6 mb-2 py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>Afternoon (4)<br />12pm—5pm </p>
-                                                </div>
-                                                <div className='flex text-grey40 hover:text-grey  hover:bg-[#f9f9f9] px-6 mb-4 py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>Evening (0)<br />5pm—12am </p>
-                                                </div>
-                                                <h6 className='px-6 font-bold text-xs text-grey60 leading-4 tracking-tight my-4'>DURATION</h6>
-                                                <div className='flex text-grey40 hover:text-grey  hover:bg-[#f9f9f9] px-6 mb-2 py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>Up to 1 hour (0) </p>
-                                                </div>
-                                                <div className='flex text-grey60 hover:text-grey  hover:bg-[#f9f9f9] px-6 mb-2 py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>1 to 4 hours (6) </p>
-                                                </div>
-                                                <div className='flex text-grey60 hover:text-grey  hover:bg-[#f9f9f9] px-6 mb-4 py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>4 hours to 1 day (1) </p>
-                                                </div>
-                                                <div className='flex text-grey40 hover:text-grey  hover:bg-[#f9f9f9] px-6 mb-4 py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>1 to 3 days(0) </p>
-                                                </div>
-                                                <div className='flex text-grey40 hover:text-grey  hover:bg-[#f9f9f9] px-6  py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>3+ days (0)</p>
-                                                </div>
-                                            </div>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible py-5 border-b border-solid border-grey20">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Rating
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
                                         </div>
-                                    </div>
-                                    <div className={classNames('flex relative items-center mr-5 p-2 hover:cursor-pointer border border-solid', {
-                                        ' hover:text-purple border-transparent': !ratingSelected,
-                                        '  border-grey rounded-lg': ratingSelected,
-                                    })} ref={ratingRef}>
-                                        <Image
-                                            src="/assets/products/star-dark.svg"
-                                            alt="Icon"
-                                            width={20}
-                                            height={20}
-                                            priority
-                                        />
-                                        {
-                                            ratingSelected ?
-                                                <><span className='mx-2 font-semibold'>
-                                                    {filterRating}
-                                                </span><FontAwesomeIcon className='text-grey hover:text-purple' icon={faClose} width={17} height={17} onClick={clearFilterRating}></FontAwesomeIcon></>
-                                                :
-                                                <span className='text-base leading-6 font-semibold  ml-2' onClick={() => setRatingFilterShow(true)}>Rating</span>
-                                        }
-
-                                        <div className={classNames('price-dropdown absolute top-full left-0 mt-1 border border-solid border-grey40 rounded-lg bg-white shadow-xl z-10', {
-                                            'hidden': !ratingFilterShow
-                                        })}>
-                                            <div className='p-6 w-[234px]'>
-                                                <div className='flex pb-2' onClick={() => { setFilterRating('5 Stars'); setRatingSelected(true) }}>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+                                            <div className='mt-6'>
+                                                <div className='flex pb-5' onClick={() => { setFilterRating('5 Stars') }}>
                                                     <input type='radio' name='ratingfilter' className='mr-2'></input>
                                                     <Rating active={5} size={20}></Rating>
                                                 </div>
-                                                <div className='flex py-2 items-center' onClick={() => { setFilterRating('4 Stars & up'); setRatingSelected(true) }}>
+                                                <div className='flex pb-5 items-center' onClick={() => { setFilterRating('4 Stars & up') }}>
                                                     <input type='radio' name='ratingfilter' className='mr-2'></input>
                                                     <Rating active={4} size={20}></Rating>
                                                     <span className='text-comment text-grey60 ml-2'>& Up</span>
                                                 </div>
-                                                <div className='flex py-2 items-center' onClick={() => { setFilterRating('3 Stars & up'); setRatingSelected(true) }}>
+                                                <div className='flex pb-5 items-center' onClick={() => { setFilterRating('3 Stars & up') }}>
                                                     <input type='radio' name='ratingfilter' className='mr-2'></input>
                                                     <Rating active={3} size={20}></Rating>
                                                     <span className='text-comment text-grey60 ml-2'>& Up</span>
                                                 </div>
-                                                <div className='flex py-2 items-center' onClick={() => { setFilterRating('2 Stars & up'); setRatingSelected(true) }}>
+                                                <div className='flex pb-5 items-center' onClick={() => { setFilterRating('2 Stars & up') }}>
                                                     <input type='radio' name='ratingfilter' className='mr-2'></input>
                                                     <Rating active={2} size={20}></Rating>
                                                     <span className='text-comment text-grey60 ml-2'>& Up</span>
                                                 </div>
-                                                <div className='flex py-2 items-center' onClick={() => { setFilterRating('1 Stars & up'); setRatingSelected(true) }}>
+                                                <div className='flex pb-5 items-center' onClick={() => { setFilterRating('1 Stars & up') }}>
                                                     <input type='radio' name='ratingfilter' className='mr-2'></input>
                                                     <Rating active={1} size={20}></Rating>
                                                     <span className='text-comment text-grey60 ml-2'>& Up</span>
@@ -287,61 +321,128 @@ export default function Products() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className={classNames('flex relative items-center mr-5 p-2 hover:cursor-pointer border border-solid', {
-                                        ' hover:text-purple border-transparent': !moreSelected,
-                                        '  border-grey rounded-lg': moreSelected,
-                                    })} ref={moreRef}>
-                                        <FontAwesomeIcon icon={faEllipsisH} width={20} height={20}></FontAwesomeIcon>
-                                        {
-                                            moreSelected ?
-                                                <><span className='mx-2 font-semibold'>
-                                                    {filterMore}
-                                                </span><FontAwesomeIcon className='text-grey hover:text-purple' icon={faClose} width={17} height={17} onClick={clearFilterMore}></FontAwesomeIcon></>
-                                                :
-                                                <span className='text-base leading-6 font-semibold ml-2' onClick={() => setMoreFilterShow(true)}>More</span>
-                                        }
-                                        <div className={classNames('time-dropdown absolute top-full left-0 mt-1 border border-solid border-grey40 rounded-lg bg-white shadow-xl z-10', {
-                                            'hidden': !moreFilterShow
-                                        })}>
-                                            <div className='py-6 w-[291px]'>
-                                                <div className='flex text-grey40 hover:text-grey  hover:bg-[#f9f9f9] px-6 mb-2 py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>Up to 1 hour (0) </p>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible py-5 border-b border-solid border-grey20">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>Time
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+                                            <p className='text-xs leading-custom font-bold -tracking-2 uppercase mt-5 mb-4 text-grey60'>Time of Day</p>
+                                            <div className='flex mb-4 items-start'>
+                                                <input type='checkbox'></input>
+                                                <div className='ml-2'>
+                                                    <p className='text-comment'>Morning(6)</p>
+                                                    <p className='text-comment'>6am - 12pm</p>
                                                 </div>
-                                                <div className='flex text-grey60 hover:text-grey  hover:bg-[#f9f9f9] px-6 mb-2 py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>1 to 4 hours (6) </p>
+                                            </div>
+                                            <div className='flex mb-4 items-start'>
+                                                <input type='checkbox'></input>
+                                                <div className='ml-2'>
+                                                    <p className='text-comment'>Afternoon(4)</p>
+                                                    <p className='text-comment'>12pm - 5pm</p>
                                                 </div>
-                                                <div className='flex text-grey60 hover:text-grey  hover:bg-[#f9f9f9] px-6 mb-4 py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>4 hours to 1 day (1) </p>
+                                            </div>
+                                            <div className='flex mb-4 items-start'>
+                                                <input type='checkbox'></input>
+                                                <div className='ml-2'>
+                                                    <p className='text-comment'>Evening(0)</p>
+                                                    <p className='text-comment'>5pm - 12am</p>
                                                 </div>
-                                                <div className='flex text-grey40 hover:text-grey  hover:bg-[#f9f9f9] px-6 mb-4 py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>1 to 3 days(0) </p>
-                                                </div>
-                                                <div className='flex text-grey40 hover:text-grey  hover:bg-[#f9f9f9] px-6  py-2'>
-                                                    <div>
-                                                        <input type='checkbox'></input>
-                                                    </div>
-                                                    <p className='text-comment ml-2'>3+ days (0)</p>
-                                                </div>
+                                            </div>
+                                            <p className='text-xs leading-custom font-bold -tracking-2 uppercase mt-5 mb-4 text-grey60'>Duration</p>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>Up to 1 hour(0)</p>
+                                            </div>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>1 to 4 hours(0)</p>
+                                            </div>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>4 hours  to 1 day(1)</p>
+                                            </div>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>1 to 3 Days(0)</p>
+                                            </div>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>3+ days(0)</p>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className='flex items-center mr-5 p-2 text-grey60 hover:text-purple hover:cursor-pointer'>
-                                    <span className='text-base leading-6 font-semibold mr-2'>Featured</span>
-                                    <FontAwesomeIcon icon={faCaretDown} width={14} height={14}></FontAwesomeIcon>
-                                </div>
+                                )}
+                            />
+                            <SlideToggle
+                                render={({ toggle, progress, setCollapsibleElement }) => (
+                                    <div className="my-collapsible py-5 border-b border-solid border-grey20">
+                                        <div className='flex my-collapsible__toggle items-center justify-between hover:cursor-pointer' onClick={toggle}>
+                                            <h6 className='text-base text-grey60 hover:text-grey leading-6 font-semibold'>More
+                                            </h6>
+                                            <FontAwesomeIcon className='text-grey60 hover:text-grey' icon={progress ? faAngleDown : faAngleUp} width={20} height={16} />
+                                        </div>
+                                        <div className="my-collapsible__content" ref={setCollapsibleElement}>
+                                            <div className='flex mb-4 items-center mt-4'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>Good for avoiding crowds</p>
+                                            </div>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>Deals & Discounts</p>
+                                            </div>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>Free Cancellation (1)</p>
+                                            </div>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>Likely to Sell Out(7)</p>
+                                            </div>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>Skip-The-Line (2)</p>
+                                            </div>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>Private Tour (0)</p>
+                                            </div>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>Viator Exclusive(21)</p>
+                                            </div>
+                                            <div className='flex mb-4 items-center'>
+                                                <input type='checkbox'></input>
+                                                <p className='text-comment text-grey40 ml-2'>New on Viator(0)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            />
+                        </div>
+                        <div className='lg:basis-2/3'>
+                            <div className='flex justify-end  mb-6'>
+                                <button onClick={() => setHeaderDropdown(!headerDropdown)} className={classNames(
+                                    'flex items-center text-base leading-6 font-semibold  rounded-xl pl-4 pr-3 py-2 btn btn-ghost', {
+                                }
+                                )}>
+                                    Featured
+                                    <Image
+                                        src="/assets/img/angle.svg"
+                                        alt="Icon"
+                                        className={classNames("ml-2", {
+                                            'rotate-180': false
+                                        })}
+                                        width={8}
+                                        height={4}
+                                        priority
+                                    />
+                                </button>
                             </div>
                             <div>
                                 <div className='flex md:flex-row flex-col border border-solid border-grey40 rounded-lg overflow-hidden'>
