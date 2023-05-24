@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import SlideToggle from "react-slide-toggle";
 import classNames from 'classnames';
+import Link from "next/link";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -22,7 +23,7 @@ export default function Products() {
             <section className='border-b border-solid border-grey20 py-5 md:block hidden'>
                 <div className='container'>
                     <div className='flex items-center'>
-                        <span className="text-comment-sm text-grey60 mr-2">Home</span>
+                        <Link href="/" className='text-comment-sm text-grey60 mr-2 hover:text-purple'>Home</Link>
                         <Image
                             src="/assets/img/bread-angle.svg"
                             alt="Destination"
@@ -31,7 +32,7 @@ export default function Products() {
                             height={8}
                             priority
                         />
-                        <span className="text-comment-sm text-grey60 mr-2">Melbourne, Australia</span>
+                        <Link href="/" className='text-comment-sm text-grey60 mr-2 hover:text-purple'>Melbourne, Australia</Link>
                         <Image
                             src="/assets/img/bread-angle.svg"
                             alt="Destination"
@@ -40,7 +41,7 @@ export default function Products() {
                             height={8}
                             priority
                         />
-                        <span className="text-comment-sm text-grey60 mr-2">Snorkelling And Diving</span>
+                        <Link href="/" className='text-comment-sm text-grey60 mr-2 hover:text-purple'>Snorkelling And Diving</Link>
                         <Image
                             src="/assets/img/bread-angle.svg"
                             alt="Destination"
@@ -49,7 +50,7 @@ export default function Products() {
                             height={8}
                             priority
                         />
-                        <span className="text-comment-sm text-grey mr-2">Title Tour Great Barrier Reef and Dive Example</span>
+                        <Link href="/" className='text-comment-sm text-grey60 mr-2 hover:text-purple'>Title Tour Great Barrier Reef and Dive Example</Link>
                     </div>
                 </div>
             </section>
@@ -260,16 +261,18 @@ export default function Products() {
                     <div className='md:basis-1/3 md:mt-0 mt-10'>
                         <div className='sticky top-32 checkWrapper bg-white rounded-lg border border-solid border-grey20 shadow'>
                             <div className='border-b border-solid border-grey20 p-6'>
-                                <div className='bg-error px-2 py-[5] rounded inline-block'>
-                                    <span className='text-white uppercase text-xs font-bold leading-3 trakcing-tighter'>LIKELY TO SELL OUT</span>
+                                <div>
+                                    <span className='bg-error px-2 py-[5] rounded inline-block text-white uppercase text-xs font-bold leading-3 trakcing-tighter'>LIKELY TO SELL OUT</span>
+                                    <span className='text-error text-xs font-bold leading-3 trakcing-tighter ml-3'>Save A$671.00!</span>
                                 </div>
                                 <div className='flex items-end mt-4'>
                                     <span className='text-comment text-grey60 mr-2'>From</span>
-                                    <h3 className='font-semibold'>A$2,000</h3>
+                                    <h3 className='font-semibold mr-2 leading-[1] '>A$2,000</h3>
+                                    <span className='text-grey60 text-[18px] leading-7 '>A$2,000.00</span>
                                 </div>
                             </div>
                             <div className='border-b border-solid border-grey20 p-6'>
-                                <button className='btn btn-primary block'>Book</button>
+                                <button className='btn btn-primary block w-full'>Book</button>
                                 <div className='flex items-center justify-center mt-4'>
                                     <Image
                                         src="/assets/products/dollar.svg"
@@ -278,7 +281,7 @@ export default function Products() {
                                         height={20}
                                         priority
                                     />
-                                    <span className='text-secondary text-base leading-6 font-semibold ml-2'>Lowest price guarantee</span>
+                                    <span className='text-green text-base leading-6 font-semibold ml-2'>Lowest price guarantee</span>
                                 </div>
                             </div>
                             <div className='p-6 bg-[#F9FAFA]'>
